@@ -25,7 +25,7 @@ tam_poblacion = 50
 
 num_beneficios = 4
 
-num_sol_seleccionadas = 2
+num_sol_seleccionadas = 3
 
 prob_mutacion = 0.01
 prob_cruza = 0.8
@@ -76,14 +76,14 @@ def seleccion(poblacion_ordenada):
 def cruza(poblacion_ordenada,poblacion_seleccionada):
     poblacion_cruza = poblacion_ordenada
     div_cromosoma = int(tam_cromosoma/2)
-    for i in range(len(poblacion_ordenada)-num_sol_seleccionadas):
+    for i in range(len(poblacion_cruza)-num_sol_seleccionadas):
         for j in range(2):
             if random.random() <= prob_cruza:
                 indice_ini = j * div_cromosoma
                 indice_fin = (j + 1) * div_cromosoma
-
-                padre_1 = poblacion_seleccionada[0][indice_ini:indice_fin]
-                padre_2 = poblacion_seleccionada[1][indice_ini:indice_fin]
+                padres = random.sample(poblacion_seleccionada, 2)
+                padre_1 = padres[0][indice_ini:indice_fin]
+                padre_2 = padres[1][indice_ini:indice_fin]
 
                 poblacion_cruza[i][indice_ini:indice_ini+2] = padre_2[0:2]
                 poblacion_cruza[i][indice_ini+2:indice_ini+6] = padre_1[2:6]
@@ -99,18 +99,17 @@ def mutacion(poblacion_cruza):
             while valor_mutacion == poblacion_cruza[i][punto_mutacion]:
                 valor_mutacion = random.randint(0,1)
 
-            poblacion_cruza[i][punto_mutacion] = valor_mutacion
-  
+            poblacion_cruza[i][punto_mutacion] = valor_mutacion 
     return poblacion_cruza
 
 poblacion_inicial = crearPoblacion()
 
 for i in range(num_generaciones):
     poblacion_ordenada = ordernarAptitudes(poblacion_inicial)
-    poblacion_seleccionada = seleccion(poblacion_inicial)
+    poblacion_seleccionada = seleccion(poblacion_ordenada)
     poblacion_cruza = cruza(poblacion_ordenada,poblacion_seleccionada)
     poblacion_final = mutacion(poblacion_cruza)
 
-solucion_inversion = ordernarAptitudes(poblacion_final)[0]
+solucion_inversion = ordernarAptitudes(poblacion_final)[tam_poblacion-1]
 
 print(solucion_inversion)
