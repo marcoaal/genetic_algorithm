@@ -102,6 +102,21 @@ def mutacion(poblacion_cruza):
             poblacion_cruza[i][punto_mutacion] = valor_mutacion 
     return poblacion_cruza
 
+def obtenerInversionFinal(poblacion_final):
+    beneficio_total = 0
+    solucion_inversion = ordernarAptitudes(poblacion_final)[tam_poblacion-1]
+    print("------ Cadena Solución -----")
+    print(solucion_inversion)
+    print("")
+    for i in range(num_beneficios):
+        indice_ini = i * num_beneficios
+        indice_fin = (i + 1) * num_beneficios
+        inversion = solucion_inversion[indice_ini:indice_fin]
+        num_millones = obtenerMillones(inversion)
+        print("Inversión en Zona "+str(i+1)+": "+str(num_millones)+" millones")
+        beneficio_total += obtenerBeneficio(num_millones,i)
+    print("\nBeneficio Total: "+str(round(beneficio_total,2))+" millones")
+
 poblacion_inicial = crearPoblacion()
 
 for i in range(num_generaciones):
@@ -110,6 +125,4 @@ for i in range(num_generaciones):
     poblacion_cruza = cruza(poblacion_ordenada,poblacion_seleccionada)
     poblacion_final = mutacion(poblacion_cruza)
 
-solucion_inversion = ordernarAptitudes(poblacion_final)[tam_poblacion-1]
-
-print(solucion_inversion)
+obtenerInversionFinal(poblacion_final)
