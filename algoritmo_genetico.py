@@ -91,16 +91,17 @@ def cruza(poblacion_ordenada,poblacion_seleccionada):
     return poblacion_cruza 
 
 def mutacion(poblacion_cruza):
-    for i in range(len(poblacion_cruza)-num_sol_seleccionadas):
+    poblacion_mutada = poblacion_cruza
+    for i in range(len(poblacion_mutada)-num_sol_seleccionadas):
         if random.random() <= prob_mutacion:
             punto_mutacion = random.randint(0,tam_cromosoma-1)
             valor_mutacion = random.randint(0,1)
   
-            while valor_mutacion == poblacion_cruza[i][punto_mutacion]:
+            while valor_mutacion == poblacion_mutada[i][punto_mutacion]:
                 valor_mutacion = random.randint(0,1)
 
-            poblacion_cruza[i][punto_mutacion] = valor_mutacion 
-    return poblacion_cruza
+            poblacion_mutada[i][punto_mutacion] = valor_mutacion 
+    return poblacion_mutada
 
 def obtenerInversionFinal(poblacion_final):
     beneficio_total = 0
